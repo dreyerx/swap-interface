@@ -1,7 +1,7 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, DEV, Percent, WDEV } from 'moonbeamswap'
+import { Currency, currencyEquals, DEV, Percent, WrappedToken } from 'dreyerxswap'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -427,10 +427,10 @@ export default function RemoveLiquidity({
   )
 
   const oneCurrencyIsETH = currencyA === DEV || currencyB === DEV
-  const oneCurrencyIsWDEV = Boolean(
+  const oneCurrencyIsWrappedToken = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(WDEV[chainId], currencyA)) ||
-        (currencyB && currencyEquals(WDEV[chainId], currencyB)))
+      ((currencyA && currencyEquals(WrappedToken[chainId], currencyA)) ||
+        (currencyB && currencyEquals(WrappedToken[chainId], currencyB)))
   )
 
   const handleSelectCurrencyA = useCallback(
@@ -558,21 +558,21 @@ export default function RemoveLiquidity({
                         </Text>
                       </RowFixed>
                     </RowBetween>
-                    {chainId && (oneCurrencyIsWDEV || oneCurrencyIsETH) ? (
+                    {chainId && (oneCurrencyIsWrappedToken || oneCurrencyIsETH) ? (
                       <RowBetween style={{ justifyContent: 'flex-end' }}>
                         {oneCurrencyIsETH ? (
                           <StyledInternalLink
-                            to={`/remove/${currencyA === DEV ? WDEV[chainId].address : currencyIdA}/${
-                              currencyB === DEV ? WDEV[chainId].address : currencyIdB
+                            to={`/remove/${currencyA === DEV ? WrappedToken[chainId].address : currencyIdA}/${
+                              currencyB === DEV ? WrappedToken[chainId].address : currencyIdB
                             }`}
                           >
-                            Receive WDEV
+                            Receive WrappedToken
                           </StyledInternalLink>
-                        ) : oneCurrencyIsWDEV ? (
+                        ) : oneCurrencyIsWrappedToken ? (
                           <StyledInternalLink
                             to={`/remove/${
-                              currencyA && currencyEquals(currencyA, WDEV[chainId]) ? 'ETH' : currencyIdA
-                            }/${currencyB && currencyEquals(currencyB, WDEV[chainId]) ? 'ETH' : currencyIdB}`}
+                              currencyA && currencyEquals(currencyA, WrappedToken[chainId]) ? 'ETH' : currencyIdA
+                            }/${currencyB && currencyEquals(currencyB, WrappedToken[chainId]) ? 'ETH' : currencyIdB}`}
                           >
                             Receive DEV
                           </StyledInternalLink>
@@ -685,7 +685,7 @@ export default function RemoveLiquidity({
 
       {pair ? (
         <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWDEV} pair={pair} />
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWrappedToken} pair={pair} />
         </AutoColumn>
       ) : null}
     </>

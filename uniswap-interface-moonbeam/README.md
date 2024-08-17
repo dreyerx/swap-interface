@@ -7,7 +7,7 @@ Forked from [sushiswap/sushiswap-classic-exchange](https://github.com/sushiswap/
 If you use the [following repository](https://github.com/albertov19/uniswap-contracts-moonbeam): your contracts should have the following addresses:
 
 ```
-      "WETH": "0xC2Bf5F29a4384b1aB0C063e1c666f02121B6084a",
+      "WETH": "0xD909178CC99d318e4D46e7E66a972955859670E1",
       "factory": "0x5c4242beB94dE30b922f57241f1D02f36e906915",
       "router": "0x42e2EE7Ba8975c473157634Ac2AF4098190fc741",
       "multicall": "0xF8cef78E923919054037a1D03662bBD884fF4edf",

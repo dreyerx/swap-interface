@@ -1,4 +1,4 @@
-import { Currency, DEV, JSBI, TokenAmount } from 'moonbeamswap'
+import { Currency, DEV, JSBI, TokenAmount } from 'dreyerxswap'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'

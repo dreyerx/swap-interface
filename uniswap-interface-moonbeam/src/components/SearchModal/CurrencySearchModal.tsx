@@ -1,4 +1,4 @@
-import { Currency } from 'moonbeamswap'
+import { Currency } from 'dreyerxswap'
 import React, { useCallback, useEffect, useState } from 'react'
 import ReactGA from 'react-ga'
 import useLast from '../../hooks/useLast'

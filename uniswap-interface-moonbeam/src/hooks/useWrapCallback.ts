@@ -1,10 +1,10 @@
-import { Currency, currencyEquals, DEV, WDEV } from 'moonbeamswap'
+import { Currency, currencyEquals, DEV, WrappedToken } from 'dreyerxswap'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
-import { useWDEVContract } from './useContract'
+import { useWrappedTokenContract } from './useContract'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -25,7 +25,7 @@ export default function useWrapCallback(
   typedValue: string | undefined
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
-  const wethContract = useWDEVContract()
+  const wethContract = useWrappedTokenContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
   const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
@@ -36,7 +36,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === DEV && currencyEquals(WDEV[chainId], outputCurrency)) {
+    if (inputCurrency === DEV && currencyEquals(WrappedToken[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -44,7 +44,7 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} DEV to WDEV` })
+                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} DEV to WrappedToken` })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
@@ -52,7 +52,7 @@ export default function useWrapCallback(
             : undefined,
         inputError: sufficientBalance ? undefined : 'Insufficient DEV balance'
       }
-    } else if (currencyEquals(WDEV[chainId], inputCurrency) && outputCurrency === DEV) {
+    } else if (currencyEquals(WrappedToken[chainId], inputCurrency) && outputCurrency === DEV) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:
@@ -60,13 +60,13 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.withdraw(`0x${inputAmount.raw.toString(16)}`)
-                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WDEV to ETH` })
+                  addTransaction(txReceipt, { summary: `Unwrap ${inputAmount.toSignificant(6)} WrappedToken to ETH` })
                 } catch (error) {
                   console.error('Could not withdraw', error)
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient WDEV balance'
+        inputError: sufficientBalance ? undefined : 'Insufficient WrappedToken balance'
       }
     } else {
       return NOT_APPLICABLE

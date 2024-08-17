@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, DEV, TokenAmount, WDEV } from 'moonbeamswap'
+import { Currency, currencyEquals, DEV, TokenAmount, WrappedToken } from 'dreyerxswap'
 import React, { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -50,10 +50,10 @@ export default function AddLiquidity({
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
-  const oneCurrencyIsWDEV = Boolean(
+  const oneCurrencyIsWrappedToken = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(currencyA, WDEV[chainId])) ||
-        (currencyB && currencyEquals(currencyB, WDEV[chainId])))
+      ((currencyA && currencyEquals(currencyA, WrappedToken[chainId])) ||
+        (currencyB && currencyEquals(currencyB, WrappedToken[chainId])))
   )
 
   const toggleWalletModal = useWalletModalToggle() // toggle wallet when disconnected
@@ -451,7 +451,7 @@ export default function AddLiquidity({
 
       {pair && !noLiquidity && pairState !== PairState.INVALID ? (
         <AutoColumn style={{ minWidth: '20rem', marginTop: '1rem' }}>
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWDEV} pair={pair} />
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWrappedToken} pair={pair} />
         </AutoColumn>
       ) : null}
     </>

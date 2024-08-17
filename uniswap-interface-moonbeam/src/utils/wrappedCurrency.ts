@@ -1,7 +1,7 @@
-import { ChainId, Currency, CurrencyAmount, DEV, Token, TokenAmount, WDEV } from 'moonbeamswap'
+import { ChainId, Currency, CurrencyAmount, DEV, Token, TokenAmount, WrappedToken } from 'dreyerxswap'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
-  return chainId && currency === DEV ? WDEV[chainId] : currency instanceof Token ? currency : undefined
+  return chainId && currency === DEV ? WrappedToken[chainId] : currency instanceof Token ? currency : undefined
 }
 
 export function wrappedCurrencyAmount(
@@ -13,6 +13,6 @@ export function wrappedCurrencyAmount(
 }
 
 export function unwrappedToken(token: Token): Currency {
-  if (token.equals(WDEV[token.chainId])) return DEV
+  if (token.equals(WrappedToken[token.chainId])) return DEV
   return token
 }

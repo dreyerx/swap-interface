@@ -10,7 +10,7 @@ import { Price } from './fractions/price'
 import { TokenAmount } from './fractions/tokenAmount'
 import { Pair } from './pair'
 import { Route } from './route'
-import { currencyEquals, Token, WDEV } from './token'
+import { currencyEquals, Token, WrappedToken } from './token'
 
 /**
  * Returns the percent difference between the mid price and the execution price, i.e. price impact.
@@ -84,18 +84,18 @@ export interface BestTradeOptions {
 
 /**
  * Given a currency amount and a chain ID, returns the equivalent representation as the token amount.
- * In other words, if the currency is DEV, returns the WDEV token amount for the given chain. Otherwise, returns
+ * In other words, if the currency is DEV, returns the WrappedToken token amount for the given chain. Otherwise, returns
  * the input currency amount.
  */
 function wrappedAmount(currencyAmount: CurrencyAmount, chainId: ChainId): TokenAmount {
   if (currencyAmount instanceof TokenAmount) return currencyAmount
-  if (currencyAmount.currency === DEV) return new TokenAmount(WDEV[chainId], currencyAmount.raw)
+  if (currencyAmount.currency === DEV) return new TokenAmount(WrappedToken[chainId], currencyAmount.raw)
   invariant(false, 'CURRENCY')
 }
 
 function wrappedCurrency(currency: Currency, chainId: ChainId): Token {
   if (currency instanceof Token) return currency
-  if (currency === DEV) return WDEV[chainId]
+  if (currency === DEV) return WrappedToken[chainId]
   invariant(false, 'CURRENCY')
 }
 
