@@ -1,6 +1,6 @@
 import { ChainId, JSBI, Percent, Token, WrappedToken } from 'dreyerxswap'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { routerv2 } from '../moonbase_address.json'
+import { routerv2 } from '../dreyerx_addresses.json'
 
 import { injected, walletconnect } from '../connectors'
 //fortmatic, portis, walletconnect, walletlink, lattice
